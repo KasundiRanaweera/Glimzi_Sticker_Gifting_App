@@ -1,0 +1,4 @@
+# Each app has its own .gitignore; this covers repo-level tooling output.
+.playwright-mcp/
+.DS_Store
+Thumbs.db
