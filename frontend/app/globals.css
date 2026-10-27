@@ -1,26 +1,20 @@
 @import "tailwindcss";
+@import "./glimzi.css";
 
+/* next/font hashes family names, so the template's font tokens point at its variables */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --display: var(--font-bricolage), var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
+  --sans: var(--font-figtree), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --hand: var(--font-caveat), "Bradley Hand", "Segoe Print", cursive;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
+/* Sheets are Radix Dialogs: keyframes on data-state let Radix wait for the exit before unmounting */
+.sheet[data-state], .scrim[data-state] { visibility: visible; transform: none; opacity: 1; transition: none; }
+.sheet[data-state="open"] { animation: sheet-in 420ms var(--ease-drawer); }
+.sheet[data-state="closed"] { animation: sheet-out 420ms var(--ease-drawer); }
+.scrim[data-state="open"] { animation: fade-in var(--d-3) ease; }
+.scrim[data-state="closed"] { animation: fade-out var(--d-3) ease; }
+@keyframes sheet-in { from { transform: translateX(104%); } }
+@keyframes sheet-out { to { transform: translateX(104%); } }
+@keyframes fade-in { from { opacity: 0; } }
+@keyframes fade-out { to { opacity: 0; } }
