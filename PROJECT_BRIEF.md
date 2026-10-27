@@ -216,15 +216,36 @@ If you created the GitHub repo with a README or license, pull it in once before 
 git pull origin main --allow-unrelated-histories
 ```
 
-### Daily routine
+### Daily routine (one branch per day, merged by pull request)
 
 ```bash
-git status                      # see what changed
-git add <files or folders>      # stage one logical change
+git switch main
+git pull                                 # start from the latest main
+git switch -c day-N/short-name           # e.g. day-2/hero-and-art
+git status                               # see what changed
+git add <files or folders>               # stage one logical change
 git commit -m "type(scope): message"
 # repeat for each logical change
-git push -u origin main         # first push; afterwards just: git push
+git push -u origin day-N/short-name      # first push of the branch; afterwards just: git push
 ```
+
+Then on GitHub: **Compare & pull request** → title `Day N: <summary>` → describe what changed → **Merge pull request** → **Delete branch**. Back locally:
+
+```bash
+git switch main
+git pull
+git branch -d day-N/short-name
+```
+
+| Day | Branch |
+| --- | --- |
+| 1 | `day-1/setup-and-layout` |
+| 2 | `day-2/hero-and-art` |
+| 3 | `day-3/content-api-and-bands` |
+| 4 | `day-4/catalogue-and-basket` |
+| 5 | `day-5/forms-api-and-pages` |
+| 6 | `day-6/content-pages-and-seo` |
+| 7 | `day-7/polish-tests-deploy` |
 
 Types: `feat`, `style`, `fix`, `refactor`, `test`, `docs`, `chore`. Scopes: `frontend`, `backend`, or none for repo-wide changes.
 
