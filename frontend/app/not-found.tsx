@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Sticker } from "@/components/art/Sticker";
 
 export const metadata: Metadata = { title: "Page not found" };
 
@@ -9,17 +10,8 @@ export default function NotFound() {
       <div className="wrap">
         <div className="nf-art" aria-hidden="true">
           <span className="big">404</span>
-          <span className="stk stk-coral nf-s1">
-            <svg>
-              <use href="/sprite.svg#s-burst" />
-            </svg>
-            <b>Oops!</b>
-          </span>
-          <span className="stk stk-sun nf-s2">
-            <svg>
-              <use href="/sprite.svg#s-smile" />
-            </svg>
-          </span>
+          <Sticker shape="burst" tone="coral" label="Oops!" className="nf-s1" />
+          <Sticker shape="smile" tone="sun" className="nf-s2" />
         </div>
         <h1 className="h2">This page got lost in the post.</h1>
         <p className="lead" style={{ margin: "1rem auto 0" }}>
