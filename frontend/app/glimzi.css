@@ -511,7 +511,7 @@ a.tile:hover .go { transform: rotate(-45deg); background: var(--paper); }
 .t-wallet { grid-column: span 4; background: var(--ink); color: var(--paper); }
 .t-wallet .h3 { color: var(--paper); }
 .t-wallet p { color: #cfc3af; }
-.t-wallet .go { background: rgba(255, 251, 244, .12); color: var(--paper); }
+.t-wallet .go { background: rgba(255, 251, 244, .12); color: var(--paper); z-index: 2; }
 .t-remind { grid-column: span 2; background: var(--coral); }
 .tile-ui { margin-top: auto; padding-top: 1.25rem; }
 .mini-editor { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) 150px; gap: 1rem; align-items: end; }
