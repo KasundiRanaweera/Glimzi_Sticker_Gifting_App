@@ -60,7 +60,7 @@ Errors always use one shape:
 ## Progress
 
 - [x] Day 1 — Setup, design tokens, fonts, header, mobile menu, footer, route stubs, 404, API skeleton
-- [ ] Day 2 — Art components and the home hero
+- [x] Day 2 — Art components, home hero with occasion switcher, marquee, bento mosaic, gift card detail routes
 - [ ] Day 3 — Database, content API, home product bands
 - [ ] Day 4 — Gift card catalogue, detail pages, basket
 - [ ] Day 5 — Form API, Features, How it works, Pricing
