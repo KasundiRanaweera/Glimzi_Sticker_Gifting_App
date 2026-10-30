@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
-import { usd, type Gift } from "@/data/catalogue";
+import type { Gift } from "@/lib/api";
+import { usd } from "@/lib/utils";
 
 // Paper gift card object: square gouache artwork + caption strip with the shop and an amount pill.
 export function GiftCard({ gift, amount = gift.amounts[0], rotate }: { gift: Gift; amount?: number; rotate?: number }) {
