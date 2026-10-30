@@ -1,0 +1,89 @@
+generator client {
+  provider            = "prisma-client"
+  output              = "../src/generated/prisma"
+  moduleFormat        = "esm"
+  importFileExtension = "js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+// ---------- Content (seeded, read-only through the API)
+
+model Category {
+  id    String @id
+  label String
+  sort  Int
+  gifts Gift[]
+}
+
+model Gift {
+  id         String     @id
+  name       String
+  short      String
+  image      String
+  alt        String
+  amounts    Json // number[], ascending
+  tagline    String
+  location   String
+  about      String
+  loved      Json // string[]
+  rank       Int // 1 = most popular
+  category   Category   @relation(fields: [categoryId], references: [id])
+  categoryId String
+  occasions  Occasion[]
+}
+
+model Occasion {
+  id        Int     @id @default(autoincrement())
+  label     String
+  recipient String
+  schedule  String
+  image     String? // null: the typographic "You did it." card
+  title     String
+  message   String
+  amount    Int
+  sort      Int
+  gift      Gift    @relation(fields: [giftId], references: [id])
+  giftId    String
+}
+
+model Plan {
+  id       String  @id
+  name     String
+  blurb    String
+  monthly  Int // cents
+  yearly   Int // cents, billed once a year
+  featured Boolean @default(false)
+  trial    String?
+  cta      String
+  features Json // string[]
+  sort     Int
+}
+
+model HelpTopic {
+  id       String        @id
+  label    String
+  sort     Int
+  articles HelpArticle[]
+}
+
+model HelpArticle {
+  id       Int       @id @default(autoincrement())
+  question String
+  answer   String
+  sort     Int
+  topic    HelpTopic @relation(fields: [topicId], references: [id])
+  topicId  String
+}
+
+model Faq {
+  id       Int    @id @default(autoincrement())
+  group    String // "home" | "billing"
+  question String
+  answer   String
+  sort     Int
+
+  @@index([group])
+}
