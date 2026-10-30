@@ -10,6 +10,7 @@ export function GreetingCard({
   message,
   className,
   eager,
+  label,
   children,
 }: {
   image?: string;
@@ -17,10 +18,11 @@ export function GreetingCard({
   message: string;
   className?: string;
   eager?: boolean; // above the fold (the hero phone)
+  label?: string; // spoken description when the card is the content, not decoration
   children?: ReactNode;
 }) {
   return (
-    <div className={cn("gc-face", className)}>
+    <div className={cn("gc-face", className)} role={label ? "img" : undefined} aria-label={label}>
       {image ? (
         <Image src={`/images/${image}.webp`} alt="" width={800} height={1200} sizes="240px" loading={eager ? "eager" : undefined} />
       ) : (
@@ -59,13 +61,33 @@ function TypeArt() {
   );
 }
 
-// A sticker pressed onto a card face, positioned in % of the card.
-export function PlacedSticker({ shape, color, x, y, r = 0 }: { shape: StickerShape; color: string; x: number; y: number; r?: number }) {
+// A sticker pressed onto a card face, positioned in % of the card. Wide shapes (pill, tag) use a 140:80 box.
+export function PlacedSticker({
+  shape,
+  color,
+  x,
+  y,
+  r = 0,
+  label,
+  wide,
+  isNew,
+}: {
+  shape: StickerShape;
+  color: string;
+  x: number;
+  y: number;
+  r?: number;
+  label?: string;
+  wide?: boolean;
+  isNew?: boolean; // pops in when just added in the editor
+}) {
+  const style = { left: `${x}%`, top: `${y}%`, "--r": `${r}deg`, color, ...(wide && { width: "28%", aspectRatio: "140 / 80" }) };
   return (
-    <span className="placed" style={{ left: `${x}%`, top: `${y}%`, "--r": `${r}deg`, color } as CSSProperties}>
-      <svg>
+    <span className={cn("placed", isNew && "is-new")} style={style as CSSProperties} aria-hidden="true">
+      <svg viewBox={wide ? "0 0 140 80" : "0 0 120 120"}>
         <use href={`/sprite.svg#s-${shape}`} />
       </svg>
+      {label && <b>{label}</b>}
     </span>
   );
 }

@@ -18,3 +18,6 @@
 @keyframes sheet-out { to { transform: translateX(104%); } }
 @keyframes fade-in { from { opacity: 0; } }
 @keyframes fade-out { to { opacity: 0; } }
+
+/* Card editor: the tray disables unplaced stickers once four are on the card */
+.stk-btn:disabled { opacity: .35; cursor: not-allowed; transform: none; }
