@@ -58,10 +58,10 @@ Out of scope: real payments, user accounts, sending email or SMS, an admin dashb
 | Layer | Choice | Why |
 | --- | --- | --- |
 | Runtime | Node.js + Express + TypeScript | Same language as the frontend, simple REST |
-| Database | SQLite via Prisma ORM | Zero setup locally; Prisma can switch to Postgres for production with a one-line change |
+| Database | SQLite via Prisma 7 + the libSQL adapter | Zero setup locally; the same adapter points at a hosted Turso (libSQL) database in production, so data survives redeploys |
 | Validation | Zod | One schema validates requests and types them |
 | Security | `helmet`, CORS limited to the frontend origin, basic rate limit on form endpoints | Sensible defaults for a public API |
-| Tests | Vitest + Supertest | Endpoint tests in CI style |
+| Tests | Node's built-in test runner (`node:test`) + `fetch` | Real HTTP endpoint tests with no extra dependencies |
 | Hosting | Render (free web service) | Simple Node deploys |
 
 ## 5. API design
@@ -193,7 +193,7 @@ Each day ends with both apps running and a few small commits in your name.
 
 ### Day 7: Polish, tests, deploy, portfolio
 - Motion system and reduced motion; keyboard and screen reader pass; responsive review at 1440/1024/768/390
-- Backend endpoint tests (Vitest + Supertest); Lighthouse fixes
+- Extend backend endpoint tests to the form endpoints; Lighthouse fixes
 - Deploy the backend to Render and the frontend to Vercel; README with screenshots and live links; portfolio write-up
 
 ## 11. Git workflow

@@ -1,12 +1,13 @@
 import Link from "next/link";
-import type { CSSProperties, ReactNode } from "react";
+import type { ReactNode } from "react";
 import { GreetingCard, PlacedSticker } from "@/components/art/GreetingCard";
 import { Icon } from "@/components/icons/Icon";
 import { site } from "@/lib/site";
+import { stagger } from "@/lib/utils";
 
 function Tile({ className, href, i, children }: { className: string; href: string; i?: number; children: ReactNode }) {
   return (
-    <Link className={`tile ${className} rv`} href={href} style={i ? ({ "--i": i } as CSSProperties) : undefined}>
+    <Link className={`tile ${className} rv`} href={href} style={i ? stagger(i) : undefined}>
       <span className="go" aria-hidden="true">
         <Icon name="arrow-right" />
       </span>
@@ -30,7 +31,7 @@ export function Bento() {
           <h2 className="h2 rv" id="home-feat">
             Everything a good gifter needs.
           </h2>
-          <p className="lead rv" style={{ "--i": 1 } as CSSProperties}>
+          <p className="lead rv" style={stagger(1)}>
             One place for the card, the gift and the date, so the thought you had on Tuesday actually arrives on Friday.
           </p>
         </div>

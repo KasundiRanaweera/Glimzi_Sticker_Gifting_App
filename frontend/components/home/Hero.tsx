@@ -2,33 +2,31 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useState, type CSSProperties } from "react";
+import { useRef, useState } from "react";
 import { GreetingCard } from "@/components/art/GreetingCard";
 import { Phone } from "@/components/art/Phone";
 import { Sticker } from "@/components/art/Sticker";
 import { Icon } from "@/components/icons/Icon";
-import { GIFTS, OCCASIONS, giftById, usd } from "@/data/catalogue";
+import type { Gift, Occasion } from "@/lib/api";
 import { site } from "@/lib/site";
-import { cn } from "@/lib/utils";
+import { cn, stagger, usd } from "@/lib/utils";
 
-// --i staggers the entrance animations in glimzi.css
-const stagger = (i: number) => ({ "--i": i }) as CSSProperties;
-
-const heroGifts = [
-  { gift: GIFTS[0], caption: "A little pick-me-up.", className: "hero-gift-coffee" },
-  { gift: GIFTS[1], caption: "Just because.", className: "hero-gift-flower" },
+// The two tilted cards beside the phone; positions are fixed in CSS.
+const heroSlots = [
+  { caption: "A little pick-me-up.", className: "hero-gift-coffee" },
+  { caption: "Just because.", className: "hero-gift-flower" },
 ];
 
-export function Hero() {
+export function Hero({ occasions, heroGifts }: { occasions: Occasion[]; heroGifts: Gift[] }) {
   const [index, setIndex] = useState(0);
   const [swapping, setSwapping] = useState(false);
   const timer = useRef<number>(undefined);
-  const occ = OCCASIONS[index];
-  const gift = giftById(occ.gift)!;
+  const occ = occasions[index];
+  const gift = occ.gift;
 
   // Fade the card out, swap the occasion, fade back in. Reduced motion swaps instantly.
   const step = (dir: 1 | -1) => {
-    const next = (index + dir + OCCASIONS.length) % OCCASIONS.length;
+    const next = (index + dir + occasions.length) % occasions.length;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return setIndex(next);
     window.clearTimeout(timer.current);
     setSwapping(true);
@@ -75,10 +73,10 @@ export function Hero() {
 
         <div className="hero-scene">
           <span className="hero-orbit" aria-hidden="true" />
-          {heroGifts.map(({ gift: g, caption, className }) => (
-            <Link key={g.id} className={cn("hero-gift hi-scale", className)} href={`/gift-cards/${g.id}`} aria-label={`${g.name} gift card`}>
+          {heroGifts.slice(0, heroSlots.length).map((g, i) => (
+            <Link key={g.id} className={cn("hero-gift hi-scale", heroSlots[i].className)} href={`/gift-cards/${g.id}`} aria-label={`${g.name} gift card`}>
               <Image src={`/images/${g.image}.webp`} alt="" width={900} height={900} sizes="160px" loading="eager" fetchPriority="high" />
-              <span>{caption}</span>
+              <span>{heroSlots[i].caption}</span>
             </Link>
           ))}
 
@@ -88,14 +86,14 @@ export function Hero() {
                 <Icon name="chevron-left" />
               </span>
               <span className="who">
-                {occ.to}
-                <small>{occ.when}</small>
+                {occ.recipient}
+                <small>{occ.schedule}</small>
               </span>
               <span className="send">Send</span>
             </div>
             <div className="app-body">
               <div className="screen-card">
-                <GreetingCard eager className={cn("swap-fade", swapping && "is-out")} image={occ.image} title={occ.title} message={occ.message} />
+                <GreetingCard eager className={cn("swap-fade", swapping && "is-out")} image={occ.image ?? undefined} title={occ.title} message={occ.message} />
               </div>
               <div className="app-gift">
                 <Image src={`/images/${gift.image}.webp`} alt="" width={900} height={900} sizes="48px" />

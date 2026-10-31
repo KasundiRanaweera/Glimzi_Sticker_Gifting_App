@@ -1,4 +1,4 @@
-import type { CSSProperties } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 export type StickerShape = "burst" | "scallop" | "circle" | "heart" | "spark" | "smile" | "flower" | "pill" | "tag";
@@ -14,7 +14,7 @@ export function Sticker({
 }: {
   shape: StickerShape;
   tone: StickerTone;
-  label?: string;
+  label?: ReactNode;
   className?: string;
   style?: CSSProperties;
 }) {
